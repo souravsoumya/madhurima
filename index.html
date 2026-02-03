@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=UTF-8>
+<meta name=viewport content=width=device-width,initial-scale=1.0>
+<title>For Motku</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:Segoe Print,Comic Sans MS,cursive,sans-serif
+}
+
+.bg{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 15% 25%,rgba(255,230,245,0.9),transparent 45%),
+radial-gradient(circle at 85% 70%,rgba(230,220,255,0.9),transparent 45%),
+radial-gradient(circle at 50% 50%,rgba(255,245,230,0.8),transparent 50%),
+linear-gradient(135deg,#f7b7d7,#e8c6ff);
+animation:drift 22s ease-in-out infinite;
+filter:blur(14px);
+transform:scale(1.15);
+z-index:0
+}
+
+@keyframes drift{
+0%{background-position:0% 0%}
+50%{background-position:100% 100%}
+100%{background-position:0% 0%}
+}
+
+.container{
+position:relative;
+z-index:2;
+width:100%;
+height:100%
+}
+
+.teddy{
+width:190px;
+max-width:80%;
+position:absolute;
+left:50%;
+top:18%;
+transform:translateX(-50%);
+transition:opacity 1s ease
+}
+
+.hidden{
+opacity:0;
+pointer-events:none
+}
+
+.question{
+position:absolute;
+top:40%;
+width:100%;
+text-align:center;
+font-size:30px;
+color:#444
+}
+
+.subline{
+margin-top:6px;
+font-size:18px;
+color:rgba(80,80,80,0.7)
+}
+
+.choices{
+position:absolute;
+top:52%;
+width:100%;
+display:flex;
+justify-content:center;
+gap:30px
+}
+
+button{
+font-size:18px;
+padding:12px 28px;
+border-radius:30px;
+border:none;
+cursor:pointer;
+background:#f06292;
+color:#fff;
+transition:transform 0.3s ease
+}
+
+.heart{
+position:absolute;
+bottom:-40px;
+color:#f06292;
+opacity:0.6;
+animation:floatUp linear infinite;
+pointer-events:none
+}
+
+@keyframes floatUp{
+from{transform:translateY(0) scale(0.8);opacity:0.7}
+to{transform:translateY(-950px) scale(1.5);opacity:0}
+}
+
+.name{
+position:absolute;
+font-size:20px;
+color:rgba(80,80,80,0.55);
+animation:nameDrift ease-in-out infinite;
+pointer-events:none
+}
+
+@keyframes nameDrift{
+0%{transform:translate(0,0);opacity:0.4}
+50%{transform:translate(20px,-16px);opacity:0.9}
+100%{transform:translate(0,0);opacity:0.4}
+}
+
+.final-line{
+position:absolute;
+top:62%;
+width:100%;
+text-align:center;
+font-size:30px;
+color:#333;
+opacity:0;
+transition:opacity 1.6s ease
+}
+
+.memory{
+position:absolute;
+width:120px;
+border-radius:18px;
+opacity:0;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+transition:opacity 1.2s ease
+}
+
+.top-left{
+top:16px;
+left:16px
+}
+
+.bottom-right{
+bottom:16px;
+right:16px
+}
+
+#noMsg{
+position:absolute;
+top:58%;
+width:100%;
+text-align:center;
+font-size:24px;
+color:#444
+}
+
+#noGif{
+display:none;
+width:120px;
+position:absolute;
+top:62%;
+left:50%;
+transform:translateX(-50%)
+}
+</style>
+</head>
+
+<body>
+
+<div class=bg></div>
+
+<div class=container>
+
+<img id=teddy1 src=https://media.tenor.com/RDwCMZeZ7b8AAAAi/hugs.gif class=teddy>
+<img id=teddy2 src=https://media.tenor.com/xO_mQzKkNFwAAAAi/hug-love-couple.gif class=teddy hidden>
+
+<div id=question class=question>
+Will U Be My Valentine Forever 🔋♾️ ?
+<div class=subline>
+Life Is Short And Till I Live I Want To Eat Only U 😌
+</div>
+</div>
+
+<div class=choices id=choices>
+<button id=yes>Yes</button>
+<button id=no>No</button>
+</div>
+
+<div class=name id=n1>Madhurima</div>
+<div class=name id=n2>Motku</div>
+<div class=name id=n3>Gudly</div>
+
+<div id=noMsg></div>
+<img id=noGif>
+
+<div id=finalLine class=final-line>
+Ami To Aage Theke Jantam Motku 😉
+</div>
+
+<img id=p1 src=photo1.jpg class="memory top-left">
+<img id=p2 src=photo2.jpg class="memory bottom-right">
+
+</div>
+
+<script>
+const yesBtn=document.getElementById("yes")
+const noBtn=document.getElementById("no")
+const names=[n1,n2,n3]
+
+names.forEach(n=>{
+n.style.left=Math.random()*80+5+"%"
+n.style.top=Math.random()*60+30+"%"
+n.style.animationDuration=4+Math.random()*4+"s"
+})
+
+function createHeart(){
+const h=document.createElement("div")
+h.className="heart"
+h.innerText=" S + M ♾️💗"
+h.style.fontSize=12+Math.random()*18+"px"
+h.style.left=Math.random()*100+"vw"
+h.style.animationDuration=6+Math.random()*6+"s"
+document.body.appendChild(h)
+setTimeout(()=>h.remove(),12000)
+}
+let heartInterval=setInterval(createHeart,600)
+
+let noCount=0
+let yesScale=1
+let noScale=1
+
+noBtn.addEventListener("click",()=>{
+noCount++
+yesScale+=0.25
+noScale-=0.2
+yesBtn.style.transform="scale("+yesScale+")"
+noBtn.style.transform="scale("+Math.max(noScale,0.4)+")"
+noGif.style.display="block"
+
+if(noCount===1){
+noMsg.innerText="Think Again 😭"
+noGif.src="https://media.tenor.com/hwOfjVqL7e4AAAAi/peach-goma.gif"
+}else if(noCount===2){
+noMsg.innerText="Are You Sure 😡 ?"
+noGif.src="https://media.tenor.com/mX64AbW856EAAAAi/dudu-dudu-angry.gif"
+}else{
+noMsg.innerText="Ebar Bolo ? 😏 🔫"
+noGif.src="https://media1.tenor.com/m/S8Vv6-uLUA0AAAAC/cute-cat.gif"
+}
+})
+
+yesBtn.addEventListener("click",()=>{
+teddy1.classList.add("hidden")
+teddy2.classList.remove("hidden")
+question.style.display="none"
+choices.style.display="none"
+noMsg.style.display="none"
+noGif.style.display="none"
+names.forEach(n=>n.style.opacity=0)
+clearInterval(heartInterval)
+
+setTimeout(()=>finalLine.style.opacity=1,1800)
+setTimeout(()=>p1.style.opacity=1,2600)
+setTimeout(()=>p2.style.opacity=1,3100)
+})
+</script>
+
+</body>
+</html>
